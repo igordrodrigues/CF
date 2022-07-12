@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Jun 24 15:55:12 BRT 2022
+eclipselink-2.5.0.pom>central=
+eclipselink-2.5.0.jar>central=
+eclipselink-2.5.0-sources.jar>central=
