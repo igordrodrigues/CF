@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Builder
+@Data
 public class MultaDTO {
 	private Long id;
 	private Integer usuario;

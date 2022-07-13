@@ -1,11 +1,15 @@
 package projeto.CF.api.resource;
 
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import projeto.CF.api.dto.VeiculoDTO;
@@ -29,7 +33,52 @@ public class VeiculoResource {
 				public VeiculoResource (VeiculoService service) {
 					this.service = service;
 				}
-				
+				@GetMapping
+				public ResponseEntity buscar(
+						@RequestParam(value ="placa", required = false) String placa  ,
+						@RequestParam(value ="ano", required = false) Integer ano  ,
+						@RequestParam(value ="chassi", required = false)  String chassi,
+						@RequestParam(value ="cor", required = false) Long idCor,
+						@RequestParam(value ="marca", required = false) Long idMarca  ,
+						@RequestParam(value ="modelo", required = false) Long idModelo ,
+						@RequestParam(value ="numero", required = false) Integer numero ,
+						@RequestParam(value ="renavan", required = false) Integer renavan ,
+						@RequestParam(value ="setor", required = false) Long idSetor ,
+						@RequestParam(value ="tipo", required = false)  Long idTipo,
+						@RequestParam(value ="usuario", required = false) Integer idUsuario ,
+						@RequestParam(value ="usuarioAlteracao", required = false) Integer idUsuarioAlteracao 
+					) {
+					
+					Cor cor = new Cor();
+					Marca marca = new Marca();
+					Modelo modelo = new Modelo();
+					Setor setor = new Setor();
+					TipoEquipamento tipo = new TipoEquipamento();
+					Usuario usuario = new Usuario();
+					Usuario usuarioAlteracao = new Usuario();
+					if(idCor != null) {cor = service.recuperaCor(idCor);}
+					if(idMarca != null) {marca = service.recuperaMarca(idMarca);}
+					if(idModelo != null) {modelo = service.recuperaModelo(idModelo);}
+					if(idSetor != null) {setor = service.recuperaSetor(idSetor);}
+					if(idTipo != null) {tipo = service.recuperaTipoEquipamento(idTipo);}
+					if(idUsuario != null) {usuario = service.recuperaUsuario(idUsuario);}
+					if(idUsuarioAlteracao != null) {usuarioAlteracao = service.recuperaUsuario(idUsuarioAlteracao);}
+					Veiculo filtro = new Veiculo();
+					filtro.setAno(ano);
+					filtro.setChassi(chassi);
+					filtro.setCor(cor);
+					filtro.setMarca(marca);
+					filtro.setModelo(modelo);
+					filtro.setNumero(numero);
+					filtro.setPlaca(placa);
+					filtro.setRenavan(renavan);
+					filtro.setSetor(setor);
+					filtro.setTipo(tipo);
+					filtro.setUsuario(usuario);
+					filtro.setUsuarioAlteracao(usuarioAlteracao);;
+					List<Veiculo> lista = service.buscaVeiculo(filtro);
+					return ResponseEntity.ok(lista);
+				}				
 				@PostMapping("/salvar")
 				public ResponseEntity Salvar(@RequestBody VeiculoDTO dto) {
 					Usuario usuario,usuarioAlteracao;

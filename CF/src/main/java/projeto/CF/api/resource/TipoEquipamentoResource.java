@@ -17,7 +17,7 @@ import projeto.CF.service.TipoEquipamentoService;
 import projeto.CF.service.TipoServicoService;
 
 @RestController
-@RequestMapping("api/tipoServico")
+@RequestMapping("api/TipoEquipamento")
 public class TipoEquipamentoResource {
 
 		private TipoEquipamentoService service;

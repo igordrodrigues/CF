@@ -16,7 +16,7 @@ import projeto.CF.model.entity.Usuario;
 import projeto.CF.service.TipoLocalService;
 import projeto.CF.service.TipoServicoService;
 @RestController
-@RequestMapping("api/tipoServico")
+@RequestMapping("api/TipoLocal")
 public class TipoLocalResource {
 
 

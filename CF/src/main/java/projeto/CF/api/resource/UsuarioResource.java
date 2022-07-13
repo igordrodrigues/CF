@@ -1,11 +1,17 @@
 package projeto.CF.api.resource;
 
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import projeto.CF.api.dto.UsuarioDTO;
@@ -17,7 +23,7 @@ import projeto.CF.model.entity.Usuario;
 import projeto.CF.service.UsuarioService;
 
 @RestController
-@RequestMapping("api/usuario")
+@RequestMapping("/api/usuario")
 public class UsuarioResource {
 
 	private UsuarioService service;
@@ -28,7 +34,21 @@ public class UsuarioResource {
 ///	public String HelloWrod() {
 //		return "hello word 2.0";
 //	}
-	
+
+	@GetMapping
+	public ResponseEntity buscar(
+		@RequestParam(value = "nome", required = false) String nome,
+		@RequestParam(value ="chapa", required = false) Integer chapa,
+		@RequestParam(value ="email", required = false) String email
+		) {
+		Usuario filtro = new Usuario();
+		filtro.setNome(nome);
+		filtro.setChapa(chapa);
+		filtro.setEmail(email);
+		List<Usuario> lista = service.buscarUsuario(filtro);
+		return ResponseEntity.ok(lista);
+	}
+
 	@PostMapping("/autenticar")
 	public ResponseEntity Autenticar(@RequestBody UsuarioDTO dto) {
 		try {
@@ -88,6 +108,9 @@ public class UsuarioResource {
 		}
 	}
 
+//	@PutMapping("(id)")
+//	public ResponseEntity atualizar(@PathVariable("id") Integer chapa, @RequestBody UsuarioDTO dto) {}
+
 	@PostMapping("/alterar")
 	public ResponseEntity Alterar(@RequestBody UsuarioDTO dto) {
 		Usuario usuarioCadastro,usuarioAlteracao;
@@ -146,5 +169,7 @@ public class UsuarioResource {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	
+	
 
 }

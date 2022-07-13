@@ -1,6 +1,8 @@
 package projeto.CF.api.resource;
 
 
+import java.math.BigDecimal;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import projeto.CF.api.dto.MultaDTO;
 import projeto.CF.exception.ErroCriacaoRegistro;
+import projeto.CF.exception.RegraNegocioException;
 import projeto.CF.model.entity.Funcionario;
 import projeto.CF.model.entity.Multa;
 import projeto.CF.model.entity.Usuario;
@@ -33,6 +36,10 @@ public class MultaResource {
 				Funcionario func = service.recuperaFuncionario(dto.getMotorista()) ;
 				Veiculo veiculo = service.recuperaVeiculo(dto.getPlaca());
 				
+				//verifica se o valor informado é maior que zero, caso não seja, lança um erro
+				if(dto.getValor().compareTo(BigDecimal.ZERO) < 1) {
+					throw new RegraNegocioException("Valor informado invalido");
+				}				
 				Multa tipoS = Multa.builder()
 						.dataMulta(dto.getDatamulta())
 						.dataCadastro(dto.getDataCadastro())
